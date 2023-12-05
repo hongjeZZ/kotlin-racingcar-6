@@ -4,15 +4,13 @@ import racingcar.utils.RandomGenerator
 import racingcar.utils.StringListSplitter
 
 class Circuit(carNames: String, private val raceRound: Int) {
-    private val cars = mutableListOf<Car>()
+    private val cars = registerCars(carNames)
 
-    init {
+    private fun registerCars(carNames: String): List<Car> {
         val carNameList = StringListSplitter.splitByCommaToStringList(carNames)
-        registerCars(carNameList)
-    }
-
-    private fun registerCars(carNameList: List<String>) {
+        val cars = mutableListOf<Car>()
         cars.addAll(carNameList.map { Car(it) })
+        return cars.toList()
     }
 
     fun startRace() {

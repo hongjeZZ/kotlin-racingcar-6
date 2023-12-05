@@ -2,14 +2,11 @@ package racingcar.domain
 
 import racingcar.InputManager
 import racingcar.OutputManager
-import racingcar.validator.CarNameValidator
-import racingcar.validator.RaceRoundValidator
 
-class RacingCarGame {
-    private val inputManager = InputManager()
-    private val outputManager = OutputManager()
-    private val carNameValidator = CarNameValidator()
-    private val raceRoundValidator = RaceRoundValidator()
+class RacingCarGame(
+    private val inputManager: InputManager,
+    private val outputManager: OutputManager,
+) {
     private lateinit var circuit: Circuit
 
     fun startGame() {
@@ -19,8 +16,8 @@ class RacingCarGame {
     }
 
     private fun init() {
-        val carNames = getValidatedCarNames()
-        val raceRound = getValidatedRaceRound()
+        val carNames = inputManager.getCarNameFromUser()
+        val raceRound = inputManager.getRaceRoundFromUser()
         circuit = Circuit(carNames, raceRound)
     }
 
@@ -33,17 +30,5 @@ class RacingCarGame {
         val referee = Referee(circuit.getCarList())
         val winningCarNames = referee.getWinningCarNames()
         outputManager.printWinners(winningCarNames)
-    }
-
-    private fun getValidatedCarNames(): String {
-        val names = inputManager.getCarNameFromUser()
-        carNameValidator.validate(names)
-        return names
-    }
-
-    private fun getValidatedRaceRound(): Int {
-        val raceRound = inputManager.getRaceRoundFromUser()
-        raceRoundValidator.validate(raceRound)
-        return raceRound.toInt()
     }
 }

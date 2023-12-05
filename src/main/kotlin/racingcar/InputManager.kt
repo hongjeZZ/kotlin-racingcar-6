@@ -1,16 +1,32 @@
 package racingcar
 
 import camp.nextstep.edu.missionutils.Console
+import racingcar.validator.CarNameValidator
+import racingcar.validator.RaceRoundValidator
 
 class InputManager {
+    private val carNameValidator = CarNameValidator()
+    private val raceRoundValidator = RaceRoundValidator()
+
     fun getCarNameFromUser(): String {
         println(CAR_NAMES_INPUT_PROMPT_MESSAGE)
-        return Console.readLine()
+        return getValidInput { carNameValidator.validate(it) }
     }
 
-    fun getRaceRoundFromUser(): String {
+    fun getRaceRoundFromUser(): Int {
         println(RACE_ROUND_INPUT_PROMPT_MESSAGE)
-        return Console.readLine()
+        return getValidInput { raceRoundValidator.validate(it) }.toInt()
+    }
+
+    private fun getValidInput(validate: (String) -> Unit): String {
+        return try {
+            val input = Console.readLine().trim()
+            validate(input)
+            input
+        } catch (e: IllegalArgumentException) {
+            println(e.message)
+            getValidInput(validate)
+        }
     }
 
     companion object {

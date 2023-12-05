@@ -15,11 +15,11 @@ class Referee(private val cars: List<Car>) {
 
     private fun setWinnerCarNames() {
         cars.forEach {
-            addWinnerCar(it)
+            addWinnerCarName(it)
         }
     }
 
-    private fun addWinnerCar(car: Car) {
+    private fun addWinnerCarName(car: Car) {
         if (car.isWinner(maxPosition)) {
             winningCarNames.add(car.getName())
         }

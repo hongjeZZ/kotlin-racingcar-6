@@ -3,6 +3,6 @@ package racingcar
 import racingcar.domain.RacingCarGame
 
 fun main() {
-    val game = RacingCarGame()
+    val game = RacingCarGame(InputManager(), OutputManager())
     game.startGame()
 }
